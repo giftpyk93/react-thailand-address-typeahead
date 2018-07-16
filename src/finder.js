@@ -47,11 +47,23 @@ const DB = new JQL(preprocess(require('../data.json')));
 
 const resolveResultbyField = (type: string, searchStr: string) => {
   let possibles = [];
+  // const t = type === 'address' ? '*' : type;
   try {
-    possibles = DB.select('*').where(type)
-            .match(`^${searchStr}`)
-            .orderBy(type)
-            .fetch();
+    if (type === 'address') {
+      const code = ['d', 'a', 'p', 'z'];
+      code.map((t) => {
+        const data = DB.select('*').where(t)
+          .match(`^${searchStr}`)
+          .orderBy(t)
+          .fetch();
+        possibles = possibles.concat(data);
+      });
+    } else {
+      possibles = DB.select('*').where(type)
+        .match(`^${searchStr}`)
+        .orderBy(type)
+        .fetch();
+    }
   } catch (e) {
     return [];
   }

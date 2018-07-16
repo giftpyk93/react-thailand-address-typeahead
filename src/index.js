@@ -12,7 +12,9 @@ type AddressFormInputPropType = {
     };
     onAddressSelected: (addresObject) => void;
     renderResult: (data) => React.Component;
+    highlighter: boolean;
 }
+
 class AddressForm extends React.Component {
   constructor(props) {
     super(props);
@@ -59,4 +61,38 @@ class AddressForm extends React.Component {
   }
 }
 
-export default AddressForm;
+class AddressWithoutForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      addressObj: undefined,
+    };
+    this.setAddressObj = this.setAddressObj.bind(this);
+  }
+
+  setAddressObj(data) {
+    const addressObj = `ต.${data.d} อ.${data.a} จ.${data.p} ${data.z || ''}`;
+    this.setState({ addressObj });
+  }
+  props: AddressFormInputPropType;
+  render() {
+    const { addressObj } = this.state;
+    return (
+      <AddressTypeahead
+        renderResult={this.props.renderResult}
+        onOptionSelected={(result) => {
+          this.setAddressObj(result);
+          this.props.onAddressSelected(result);
+        }}
+        value={addressObj || ''}
+        fieldType="address"
+        highlighter={this.props.highlighter}
+      />
+    );
+  }
+}
+
+export {
+  AddressForm,
+  AddressWithoutForm,
+};

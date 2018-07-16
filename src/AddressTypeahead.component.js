@@ -1,10 +1,24 @@
 // @flow
 import { compose, withState, withProps, lifecycle, defaultProps } from 'recompose';
 import React, { Component } from 'react';
+import styled from 'styled-components';
+import Highlighter from 'react-highlight-words';
 
 import Typeahead from './Typeahead.component';
 import { resolveResultbyField } from './finder';
 
+const ResultWrapper = styled.div`
+  display: flex;
+`;
+const ResultCell = styled.div`
+  display: flex;
+  flex: 1;
+`;
+const Highlight = styled.span`
+  ${props => props.highlight && `
+    background-color: yellow
+  `}
+`;
 
 type AddressInputType = {
   // local state
@@ -16,6 +30,7 @@ type AddressInputType = {
   value: string;
   onOptionSelected: (option: any) => void;
   renderResult: (data: any) => React.Component;
+  highlighter: boolean;
 }
 const AddressTypeaheadComponent = (props: AddressInputType) => {
   const { searchStr, setSearchStr, fieldType, options } = props;
@@ -25,14 +40,29 @@ const AddressTypeaheadComponent = (props: AddressInputType) => {
   }
   return (
     <Typeahead
-      displayOption={props.renderResult}
-      filterOption={fieldType}
+      // displayOption={props.renderResult}
+      displayOption={props.computeRenderResult}
+      // filterOption={fieldType}
       options={options}
-      maxVisible={5}
+      maxVisible={10}
       value={searchStr}
       onChange={e => setSearchStr(e.target.value)}
       onOptionSelected={option => props.onOptionSelected(option)}
     />
+  );
+};
+
+const getHighlightedText = (text, highlight) => {
+  // Split on higlight term and include term into parts, ignore case
+  const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+  return (
+    <span>
+      {parts.map((part, i) => (
+        <Highlight key={`${i}-${part}`} highlight={part === highlight}>
+          { part }
+        </Highlight>
+      ))}
+    </span>
   );
 };
 
@@ -49,10 +79,26 @@ const AddressTypeahead: Component<AddressInputType> = compose(
     options: resolveResultbyField(fieldType, searchStr),
   })),
   defaultProps(({
-    renderResult: data => (
-      <span>{`${data.d} » ${data.a} » ${data.p} » `}{data.z || <li>{'ไม่มีรหัสไปรษณีย์'}</li>}</span>
-    ),
+    renderResult: data => `ต.${data.d} » อ.${data.a} » จ.${data.p}${data.z ? ` » ${data.z}` : ''}`,
     value: '',
+  })),
+  withProps(({ searchStr, renderResult, highlighter }) => ({
+    computeRenderResult: (data) => {
+      if (highlighter) {
+        const result = renderResult(data);
+        // const result = `ต.${data.d} » อ.${data.a} » จ.${data.p}${data.z ? ` » ${data.z}` : ''}`;
+        console.log('9999999', renderResult, '0000', data, result);
+        return getHighlightedText(result, searchStr);
+        // return <Highlighter
+        //   searchWords={[searchStr]}
+        //   autoEscape={true}
+        //   textToHighlight={result}
+        // />
+      } else {
+        console.log('00000', renderResult(data));
+        return renderResult(data);
+      }
+    },
   })),
 )(AddressTypeaheadComponent);
 

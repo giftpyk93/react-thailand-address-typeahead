@@ -24,7 +24,8 @@ const Typeahead: React.Component<TypeaheadInputType> = compose(
       maxVisible: 10,
     }),
     withState('open', 'setOpen', false),
-)((props: TypeaheadInputType) => (
+)((props: TypeaheadInputType) => {
+  return (
   <div className="typeahead typeahead-input-wrap">
     <input
       onBlur={() => setTimeout(() => props.setOpen(false), 400)}
@@ -53,7 +54,7 @@ const Typeahead: React.Component<TypeaheadInputType> = compose(
           </li>))}
     </ul> : null}
   </div>
-));
+) });
 
 
 export default Typeahead;

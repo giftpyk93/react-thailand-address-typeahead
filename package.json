@@ -63,6 +63,8 @@
   },
   "dependencies": {
     "jqljs": "^0.3.2",
-    "recompose": "0.23.0"
+    "react-highlight-words": "^0.11.0",
+    "recompose": "0.23.0",
+    "styled-components": "^3.3.3"
   }
 }
