@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf, action } from '@kadira/storybook';
 import { withState } from 'recompose';
+import styled from 'styled-components'
 // import AddressTypeahead from '../src/index';
 import { AddressForm, AddressWithoutForm } from '../src/index';
 
@@ -20,6 +21,11 @@ const getHighlightedText = (text, highlight) => {
     </span>
   );
 };
+
+const NewStyle = styled(AddressWithoutForm)`
+  background-color: aqua;
+  border: 2px red solid;
+`
 
 storiesOf('Component', module)
   .add('montage', () => (
@@ -68,7 +74,7 @@ storiesOf('Component', module)
   ))
   .add('custom address with highlight', () => (
     <div style={{ width: 400 }}>
-      <AddressWithoutForm
+      <NewStyle
         renderResult={data => `HI >> ${data.p} : ต.${data.d} อ.${data.a}`}
         onAddressSelected={action('onSelectedAdress')}
         highlighter

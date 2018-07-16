@@ -1,9 +1,9 @@
 {
-  "name": "react-thailand-address-typeahead",
-  "version": "1.0.0",
+  "name": "react-address-typeahead-with-hilighter",
+  "version": "0.1.0",
   "main": "src/index.js",
   "repository": {
-    "url": "git@github.com:zapkub/react-thailand-address-typeahead.git",
+    "url": "git@github.com:piyakornJansiripitikul/react-thailand-address-typeahead.git",
     "type": "git"
   },
   "scripts": {
@@ -15,7 +15,7 @@
     "storybook": "start-storybook -p 9001 -c .storybook",
     "export": "build-storybook -c .storybook -o .out"
   },
-  "author": "Rungsikorn Rungsikavarnich <rungsikorn@me.com>",
+  "author": "Piyakorn Jansiripitikul",
   "license": "MIT",
   "devDependencies": {
     "@kadira/storybook": "^2.35.3",
@@ -63,7 +63,6 @@
   },
   "dependencies": {
     "jqljs": "^0.3.2",
-    "react-highlight-words": "^0.11.0",
     "recompose": "0.23.0",
     "styled-components": "^3.3.3"
   }

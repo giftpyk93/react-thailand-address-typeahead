@@ -86,16 +86,8 @@ const AddressTypeahead: Component<AddressInputType> = compose(
     computeRenderResult: (data) => {
       if (highlighter) {
         const result = renderResult(data);
-        // const result = `ต.${data.d} » อ.${data.a} » จ.${data.p}${data.z ? ` » ${data.z}` : ''}`;
-        console.log('9999999', renderResult, '0000', data, result);
         return getHighlightedText(result, searchStr);
-        // return <Highlighter
-        //   searchWords={[searchStr]}
-        //   autoEscape={true}
-        //   textToHighlight={result}
-        // />
       } else {
-        console.log('00000', renderResult(data));
         return renderResult(data);
       }
     },
