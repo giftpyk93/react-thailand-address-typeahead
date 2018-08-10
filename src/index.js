@@ -71,7 +71,7 @@ class AddressWithoutForm extends React.Component {
   }
 
   setAddressObj(data) {
-    const addressObj = `ต.${data.d} อ.${data.a} จ.${data.p} ${data.z || ''}`;
+    const addressObj = this.props.withoutZ ? `ต.${data.d} อ.${data.a} จ.${data.p}` : `ต.${data.d} อ.${data.a} จ.${data.p} ${data.z || ''}`;
     this.setState({ addressObj });
   }
   props: AddressFormInputPropType;
@@ -86,6 +86,7 @@ class AddressWithoutForm extends React.Component {
         }}
         value={addressObj || ''}
         fieldType="address"
+        maxVisible={this.props.maxVisible}
         highlighter={this.props.highlighter}
       />
     );
