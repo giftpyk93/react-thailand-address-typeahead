@@ -30,9 +30,10 @@ type AddressInputType = {
   onOptionSelected: (option: any) => void;
   renderResult: (data: any) => React.Component;
   highlighter: boolean;
+  maxVisible: number;
 }
 const AddressTypeaheadComponent = (props: AddressInputType) => {
-  const { searchStr, setSearchStr, fieldType, options } = props;
+  const { searchStr, setSearchStr, fieldType, options, maxVisible } = props;
   if (!fieldType) {
     console.warn('No field type provide');
     return <div />;
@@ -43,7 +44,7 @@ const AddressTypeaheadComponent = (props: AddressInputType) => {
       displayOption={props.computeRenderResult}
       // filterOption={fieldType}
       options={options}
-      maxVisible={10}
+      maxVisible={maxVisible}
       value={searchStr}
       onChange={e => setSearchStr(e.target.value)}
       onOptionSelected={option => props.onOptionSelected(option)}
@@ -80,6 +81,7 @@ const AddressTypeahead: Component<AddressInputType> = compose(
   defaultProps(({
     renderResult: data => `ต.${data.d} » อ.${data.a} » จ.${data.p}${data.z ? ` » ${data.z}` : ''}`,
     value: '',
+    maxVisible: 5,
   })),
   withProps(({ searchStr, renderResult, highlighter }) => ({
     computeRenderResult: (data) => {
