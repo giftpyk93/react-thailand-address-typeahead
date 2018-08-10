@@ -43,7 +43,7 @@ const preprocess = (data) => {
   });
   return expanded;
 };
-const DB = new JQL(preprocess(require('../data.json')));
+const DB = new JQL(preprocess(require('./data.json')));
 
 const resolveResultbyField = (type: string, searchStr: string) => {
   let possibles = [];
