@@ -2,7 +2,6 @@
 import { compose, withState, withProps, lifecycle, defaultProps } from 'recompose';
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Highlighter from 'react-highlight-words';
 
 import Typeahead from './Typeahead.component';
 import { resolveResultbyField } from './finder';

@@ -38,7 +38,7 @@
 }
 .tt-cursor,
 .typeahead-selector li:hover{
-    background: #f5f5f5;
+    background: #f5f5f5 !important;
 }
 .typeahead-input-hint {
     opacity: 0.3 !important;
@@ -49,4 +49,12 @@
     left:0;
     user-select: none;
     pointer-events: none;
+}
+
+.selected-key {
+    background: #f5f5f5 !important;
+}
+
+.not-selected {
+    background: #fff !important;
 }
