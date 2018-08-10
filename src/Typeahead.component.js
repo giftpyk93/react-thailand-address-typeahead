@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { defaultProps, withState, compose, withStateHandlers, withHandlers } from 'recompose';
+import styled, { css } from 'styled-components';
 
 type TypeaheadInputType = {
     displayOption: () => any;
@@ -15,6 +16,53 @@ type TypeaheadInputType = {
     open: boolean;
     setOpen: (boolean) => void;
 }
+
+const InputWrap = styled.div`
+  position: relative;
+  width: 100%;
+`;
+const TypeaheadInput = styled.input`
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  transition: 0.2s ease-in-out;
+  transition-property: color, background-color, border;
+  &:focus {
+    outline: none;
+  }
+`;
+const InputHint = styled.input`
+  opacity: 0.3 !important;
+  position: absolute;
+  width: 100%;
+  border: none;
+  top:0;
+  left:0;
+  user-select: none;
+  pointer-events: none;
+`;
+const Selector = styled.ul`
+  width: 100%;
+  border: 1px solid #eee;
+  border-top: none;
+  list-style-type: none;
+  position: absolute;
+  z-index: 10;
+  padding: 0;
+  margin: 0;
+`;
+const List = styled.li`
+  padding: 8px 4px;
+  background: #fff !important;
+  border-bottom: 1px solid #eee;
+  font-weight: normal;
+  cursor: pointer;
+  z-index: 100;
+  &:hover {
+      background: #f5f5f5 !important;
+  }
+  ${props => props.isSelected && css`background: #f5f5f5 !important;`}
+`
 
 const Typeahead: React.Component<TypeaheadInputType> = compose(
     defaultProps({
@@ -48,39 +96,39 @@ const Typeahead: React.Component<TypeaheadInputType> = compose(
         props.onChange(e);
       },
     }),
-)((props: TypeaheadInputType) => {
-  return (
-  <div className="typeahead typeahead-input-wrap">
-    <input
+)((props: TypeaheadInputType) => (
+  <InputWrap>
+    <TypeaheadInput
       onBlur={() => setTimeout(() => props.setOpen(false), 400)}
       onFocus={() => props.setOpen(true)}
       type="text" value={props.value}
       onChange={props.handleOnChange}
       onKeyDown={props.handleKeydown}
     />
-    { props.options.length && props.value.length ? <input
+    { props.options.length && props.value.length ? <InputHint
       onChange={() => null}
       value={props.options[0][props.filterOption]}
-      type="text" className="typeahead-input-hint"
+      type="text"
+      // className="typeahead-input-hint"
     /> : null }
 
-    {props.open && props.options.length && props.value.length ? <ul className="typeahead-selector" >
+    {props.open && props.options.length && props.value.length ? <Selector>
       {props.options
         .filter((item, i) => i < props.maxVisible)
         .map(
         (item, i) => (
-          <li
-            className={props.selectedIndex === i ? 'selected-key' : 'not-selected'}
+          <List
+            isSelected={props.selectedIndex === i}
             key={i}
             onClick={() => {
               props.onOptionSelected(item);
               props.setOpen(false);
             }}
           >{props.displayOption(item)}
-          </li>))}
-    </ul> : null}
-  </div>
-) });
+          </List>))}
+    </Selector> : null}
+  </InputWrap>
+));
 
 
 export default Typeahead;
